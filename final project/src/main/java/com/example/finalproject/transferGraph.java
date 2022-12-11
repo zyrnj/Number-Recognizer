@@ -15,13 +15,18 @@ public interface transferGraph {
         //use thumnails to zoom in raw photo
         Thumbnails.of("src/main/original.png").size(28,28).toFile("src/main/transformed.png");
         //use BufferedImage to create grey photo
-        Image srcImg = ImageIO.read(new File("src/main/transformed.png"));
+        BufferedImage srcImg = ImageIO.read(new File("src/main/transformed.png"));
         BufferedImage scaledImg = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
         Graphics graphics = scaledImg.getGraphics();
         graphics.drawImage(srcImg, 0, 0, null);
         graphics.dispose();
         //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));
-
+        for(int i= 0 ; i < 28 ; i++){
+            for(int j = 0 ; j < 28; j++){
+                int rgb = srcImg.getRGB(i, j);
+                scaledImg.setRGB(i, j, rgb);
+            }
+        }
         //get gray picture of  size 28*28
         Raster graphic = scaledImg.getData();
 
