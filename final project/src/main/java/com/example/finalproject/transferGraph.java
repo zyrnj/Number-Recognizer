@@ -28,11 +28,11 @@ public interface transferGraph {
         graphics.drawImage(srcImg, 0, 0, null);
         graphics.dispose();
         //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));*/
-
         OpenCV.loadShared();
+        Thumbnails.of("src/main/original.png").size(28,28).toFile("src/main/original.png");
         Mat srcImage = Imgcodecs.imread("src/main/original.png");
         Mat dstImage = new Mat();
-        Imgproc.resize(srcImage,srcImage,new Size(28,28));
+        //Imgproc.resize(srcImage,srcImage,new Size(28,28));
         Imgproc.cvtColor(srcImage, dstImage, Imgproc.COLOR_BGR2GRAY,0);
         Imgcodecs.imwrite("src/main/transformed.png", dstImage);
         BufferedImage scaledImg = ImageIO.read(new File("src/main/transformed.png"));
