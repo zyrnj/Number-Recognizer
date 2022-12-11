@@ -1,6 +1,7 @@
 package com.example.finalproject;
 
 import net.coobird.thumbnailator.Thumbnails;
+import nu.pattern.OpenCV;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -27,7 +28,7 @@ public interface transferGraph {
         graphics.dispose();
         //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));*/
 
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        OpenCV.loadShared();
         Mat originalImage = Imgcodecs.imread("src/main/original.png");
         Mat dstImage = new Mat();
         Imgproc.resize(originalImage, originalImage, new Size(28, 28));
