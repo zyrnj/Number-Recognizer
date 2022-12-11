@@ -1,6 +1,11 @@
 package com.example.finalproject;
 
 import net.coobird.thumbnailator.Thumbnails;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,21 +17,22 @@ import java.io.IOException;
 public interface transferGraph {
 
     default float[][] transfer() throws IOException {
-        //use thumnails to zoom in raw photo
+        /*//use thumnails to zoom in raw photo
         Thumbnails.of("src/main/original.png").size(28,28).toFile("src/main/transformed.png");
         //use BufferedImage to create grey photo
         BufferedImage srcImg = ImageIO.read(new File("src/main/transformed.png"));
         BufferedImage scaledImg = new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_GRAY);
         Graphics graphics = scaledImg.getGraphics();
         graphics.drawImage(srcImg, 0, 0, null);
-        graphics.dispose();
+        graphics.dispose();*/
         //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));
-        for(int i= 0 ; i < 28 ; i++){
-            for(int j = 0 ; j < 28; j++){
-                int rgb = srcImg.getRGB(i, j);
-                scaledImg.setRGB(i, j, rgb);
-            }
-        }
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        Mat srcImage = Imgcodecs.imread("src/main/original.png");
+        Mat dstImage = new Mat();
+        Imgproc.resize(srcImage,srcImage,new Size(28,28));
+        Imgproc.cvtColor(srcImage, dstImage, Imgproc.COLOR_BGR2GRAY,0);
+        Imgcodecs.imwrite("src/main/transformed.png", dstImage);
+        BufferedImage scaledImg = ImageIO.read(new File("src/main/transformed.png"));
         //get gray picture of  size 28*28
         Raster graphic = scaledImg.getData();
 
