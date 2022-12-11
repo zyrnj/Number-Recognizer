@@ -1,6 +1,11 @@
 package com.example.finalproject;
 
 import net.coobird.thumbnailator.Thumbnails;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,7 +17,7 @@ import java.io.IOException;
 public interface transferGraph {
 
     default float[][] transfer() throws IOException {
-        //use thumnails to zoom in raw photo
+        /*//use thumnails to zoom in raw photo
         Thumbnails.of("src/main/original.png").size(28,28).toFile("src/main/transformed.png");
         //use BufferedImage to create grey photo
         Image srcImg = ImageIO.read(new File("src/main/transformed.png"));
@@ -20,10 +25,17 @@ public interface transferGraph {
         Graphics graphics = scaledImg.getGraphics();
         graphics.drawImage(srcImg, 0, 0, null);
         graphics.dispose();
-        //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));
+        //ImageIO.write(scaledImg, "PNG", new File("src/main/transformedgray.png"));*/
 
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        Mat originalImage = Imgcodecs.imread("src/main/original.png");
+        Mat dstImage = new Mat();
+        Imgproc.resize(originalImage, originalImage, new Size(28, 28));
+        Imgproc.cvtColor(originalImage, dstImage, Imgproc.COLOR_BGR2GRAY, 0);
+        Imgcodecs.imwrite("src/main/transformed.png", dstImage);
         //get gray picture of  size 28*28
-        Raster graphic = scaledImg.getData();
+        BufferedImage srcImg = ImageIO.read(new File("src/main/transformed.png"));
+        Raster graphic = srcImg.getData();
 
         //Get the pixels for each point in 28*28 photo
         int[] pixels = new int[28 * 28];

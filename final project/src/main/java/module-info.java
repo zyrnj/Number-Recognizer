@@ -10,6 +10,7 @@ module com.example.finalproject {
     requires org.apache.commons.io;
     requires libtensorflow.jni;
     requires libtensorflow;
+    requires opencv;
 
 
     opens com.example.finalproject to javafx.fxml;
