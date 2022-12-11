@@ -96,9 +96,9 @@ public class GUIController {
                 LoadImage l=new LoadImage();
                 try {
                     l.getRgbArray();
-                    //Predict p=Predict.getInstance();
-                    //int res= p.getPredictRes(l);
-                    //result.setText(res);
+                    Predict p=Predict.getInstance();
+                    int res= p.getPredictRes(l);
+                    result.setText(""+res);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
