@@ -3,4 +3,4 @@
 
 2.Built UI using Javafx and import models using Tensorflow
 
-3.You can find output screenshot in directory 
+3.You can find output screenshot in directory  Number-Recognizer/final project/src/main/resources/ 
